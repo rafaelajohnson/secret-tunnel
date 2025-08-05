@@ -12,7 +12,7 @@ export default function Tablet() {
     e.preventDefault();
     try {
       await authenticate();
-      // on success, location will switch to "TUNNEL"
+    
     } catch (err) {
       console.error(err);
     

@@ -11,7 +11,7 @@ export default function Entrance() {
     e.preventDefault();
     try {
       await signup(name);
-      // on success, location will switch to TABLET
+     
     } catch (err) {
       console.error(err);
      
