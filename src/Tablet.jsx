@@ -1,8 +1,26 @@
 /** Button that attempts to use the token in context when clicked */
+
+import React from "react";
+import { useAuth } from "./AuthContext";
+
+
 export default function Tablet() {
   // TODO: call authenticate when form is submitted
+  const { authenticate } = useAuth();
 
-  return (
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await authenticate();
+      // on success, location will switch to "TUNNEL"
+    } catch (err) {
+      console.error(err);
+    
+    }
+  };
+
+
+ return (
     <section>
       <p>
         The sound of your name thuds against the gate as the two badgers furrow
@@ -16,8 +34,8 @@ export default function Tablet() {
       <p>
         It holds out a rectangular stone tablet carved with an intricate design.
       </p>
-      <form>
-        <button>Place your palm upon the tablet.</button>
+      <form onSubmit={handleSubmit}>
+        <button type="submit">Place your palm upon the tablet.</button>
       </form>
     </section>
   );
