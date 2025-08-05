@@ -26,13 +26,38 @@ export function AuthProvider({ children }) {
   }
 
   // TODO: authenticate
+async function authenticate() {
+  if (!token) {
+    throw new Error("No token, please sign up first or log in.");
+  
+  }
 
-  const value = { location, signup };
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  const res = await fetch(`${API}/authenticate`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (!res.ok) {
+    throw new Error("Authentication failed");
+  }
+  setLocation("TUNNEL");
+}
+
+const value = {
+  location,
+  signup,
+  authenticate,
+};
+
+return (
+  <AuthContext.Provider value={value}>
+    {children}
+  </AuthContext.Provider>
+);
 }
 
 export function useAuth() {
-  const context = useContext(AuthContext);
-  if (!context) throw Error("useAuth must be used within an AuthProvider");
-  return context;
+const context = useContext(AuthContext);
+if (!context) {
+  throw new Error("useAuth must be used inside an AuthProvider");
+}
+return context;
 }
